@@ -25,6 +25,36 @@ public class AviaSoulsTest {
     }
 
     @Test
+    public void shouldSearchIfOneTicket() {
+        AviaSouls as = new AviaSouls();
+        as.add(ticket1);
+        as.add(ticket2);
+        as.add(ticket3);
+        as.add(ticket4);
+        as.add(ticket5);
+
+        Ticket[] expected = { ticket1 };
+        Ticket[] actual = as.search("Норильск", "Караганда");
+        Assertions.assertArrayEquals(expected, actual);
+
+    }
+
+    @Test
+    public void shouldSearchIfThereAreNoTickets() {
+        AviaSouls as = new AviaSouls();
+        as.add(ticket1);
+        as.add(ticket2);
+        as.add(ticket3);
+        as.add(ticket4);
+        as.add(ticket5);
+
+        Ticket[] expected = {};
+        Ticket[] actual = as.search("Бишкек", "Кушкек");
+        Assertions.assertArrayEquals(expected, actual);
+
+    }
+
+    @Test
     public void shouldSearchAndSort() {
         AviaSouls as = new AviaSouls();
         as.add(ticket1);
@@ -60,6 +90,38 @@ public class AviaSoulsTest {
 
         Ticket[] expected = {ticket3, ticket4, ticket5};
         Ticket[] actual = as.searchAndSortBy("Москва", "Санкт-Петербург", comparator);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchWithComparatorIfOneTicket() {
+        AviaSouls as = new AviaSouls();
+        as.add(ticket1);
+        as.add(ticket2);
+        as.add(ticket3);
+        as.add(ticket4);
+        as.add(ticket5);
+        Comparator<Ticket> comparator = new TicketTimeComparator();
+
+        Ticket[] expected = { ticket1 };
+        Ticket[] actual = as.searchAndSortBy("Норильск", "Караганда", comparator);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchWithComparatorIfNoTickets() {
+        AviaSouls as = new AviaSouls();
+        as.add(ticket1);
+        as.add(ticket2);
+        as.add(ticket3);
+        as.add(ticket4);
+        as.add(ticket5);
+        Comparator<Ticket> comparator = new TicketTimeComparator();
+
+        Ticket[] expected = {};
+        Ticket[] actual = as.searchAndSortBy("Чебаркуль", "Нижние Пупки", comparator);
 
         Assertions.assertArrayEquals(expected, actual);
     }
